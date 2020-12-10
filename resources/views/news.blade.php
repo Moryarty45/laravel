@@ -6,6 +6,6 @@
     <title>Laravel news</title>
 </head>
 <body>
-    <h1>Добро пожаловать!</h1>
+     <h2>Страница новостей</h2>
 </body>
 </html>
