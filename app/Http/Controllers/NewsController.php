@@ -6,38 +6,40 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    private $news = [
-        1 => [
-            'title' => 'news 1',
-            'category' => 'category 1'
-        ],
-        2 => [
-            'title' => 'news 2',
-            'category' => 'category 2'
-        ],
+    private $categories = [
+        1 => 'Здоровье',
+        2 => 'ИТ',
+        3 => 'Спорт'
     ];
-
 
     public function index()
     {
 
-        foreach ($this->news as $id => $item) {
-            $url = route('news-card', ['id' => $id]);
-            echo "<div><a href='{$url}'>{$item['title']}</a></div>";
-        }
+        return view(
+            'news.index',
+            [
+                'categories' => $this->categories,
+            ]);
+    }
 
-        echo "this is main news page";
-        exit;
+    public function list($categoryId)
+    {
+        $news = (new News())->getByCategoryId($categoryId);
+        return view(
+            'news.list',
+            [
+                'news' => $news
+            ]);
     }
 
     public function newsCard($id)
     {
-        echo "concrete news {$id}";
-        exit;
-    }
-    public function newsCategory($id)
-    {
-        echo "category news {$id}";
-        exit;
+        $news = (new News())->getById($id);
+        return view(
+            'news.card',
+            [
+                'news' => $news
+            ]
+        );
     }
 }

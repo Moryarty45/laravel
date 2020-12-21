@@ -17,6 +17,26 @@ use \App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+/**
+ * Новости
+ */
+
+Route::group([
+   'prefix' => 'news',
+   'as' => 'news::',
+], function () {
+    Route::get('/',  [NewsController::class, 'index'])
+        ->name('categories');
+
+    Route::get('/card/{id}', [NewsController::class, 'newsCard'])
+        ->name('card')
+        ->where('id', '[0-9]+');
+
+    Route::get('/{categoryId}', [NewsController::class, 'list'])
+        ->name('list')
+        ->where('categoryId', '[0-9]+');
 });
 
 Route::get('/login', [
@@ -26,19 +46,6 @@ Route::get('/login', [
 Route::get('/about', function () {
     return view('about');
 });
-
-Route::get('/news', [
-    'uses' => '\App\Http\Controllers\NewsController@index'
-]);
-
-Route::get('/news/card/{id}', [NewsController::class, 'newsCard'])
-    ->name('news-card')
-    ->where('id', '[0-9]+');
-
-Route::get('/news/category/{id}', [NewsController::class, 'newsCategory'])
-->name('news-category')
-->where('id', '[0-9]+');
-
 
 /**
  * Админка новостей
